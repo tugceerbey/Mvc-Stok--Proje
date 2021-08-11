@@ -1,0 +1,23 @@
+﻿@model MvcStok.Models.Entity.TBLMUSTERİ
+@{
+    ViewBag.Title = "MüsteriGetir";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("MüsteriGüncelle", "Müsteri", FormMethod.Post))
+{
+    <h2>Kategori Güncelleme</h2>
+    @Html.HiddenFor(x => x.İD, new { @class = "form-control" })
+    <br />
+    @Html.TextBoxFor(x => x.AD, new { @class = "form-control" })
+    <br />
+    @Html.TextBoxFor(x => x.SOYAD, new { @class = "form-control" })
+    <br />
+    @Html.TextBoxFor(x => x.SEHİR, new { @class = "form-control" })
+    <br />
+    @Html.TextBoxFor(x => x.BAKIYE, new { @class = "form-control" })
+    <br />
+
+    <button class=" btn btn-info">Güncelle</button>
+}
+

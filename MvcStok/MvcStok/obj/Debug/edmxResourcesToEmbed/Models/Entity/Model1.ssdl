@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBMvcStokModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TBLADMIN">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KULLANICI" Type="varchar" MaxLength="20" />
+    <Property Name="SİFRE" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="TBLKATEGORİ">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AD" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="TBLMUSTERİ">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AD" Type="varchar" MaxLength="30" />
+    <Property Name="SOYAD" Type="varchar" MaxLength="30" />
+    <Property Name="SEHİR" Type="varchar" MaxLength="15" />
+    <Property Name="BAKIYE" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DURUM" Type="bit" />
+  </EntityType>
+  <EntityType Name="TBLPERSONEL">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AD" Type="varchar" MaxLength="30" />
+    <Property Name="SOYAD" Type="varchar" MaxLength="30" />
+    <Property Name="DEPARTMAN" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="TBLSATİS">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ÜRÜN" Type="int" />
+    <Property Name="PERSONEL" Type="int" />
+    <Property Name="MUSTERİ" Type="int" />
+    <Property Name="FİYAT" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TARİH" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="TBLURUNLER">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AD" Type="varchar" MaxLength="50" />
+    <Property Name="MARKA" Type="varchar" MaxLength="50" />
+    <Property Name="STOK" Type="smallint" />
+    <Property Name="ALISFIYAT" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SATISFIYAT" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="KATEGORİ" Type="int" />
+    <Property Name="DURUM" Type="bit" />
+  </EntityType>
+  <Association Name="FK_TBLSATİS_TBLMUSTERİ">
+    <End Role="TBLMUSTERİ" Type="Self.TBLMUSTERİ" Multiplicity="0..1" />
+    <End Role="TBLSATİS" Type="Self.TBLSATİS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLMUSTERİ">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLSATİS">
+        <PropertyRef Name="MUSTERİ" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSATİS_TBLPERSONEL">
+    <End Role="TBLPERSONEL" Type="Self.TBLPERSONEL" Multiplicity="0..1" />
+    <End Role="TBLSATİS" Type="Self.TBLSATİS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLPERSONEL">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLSATİS">
+        <PropertyRef Name="PERSONEL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSATİS_TBLURUNLER">
+    <End Role="TBLURUNLER" Type="Self.TBLURUNLER" Multiplicity="0..1" />
+    <End Role="TBLSATİS" Type="Self.TBLSATİS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLURUNLER">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLSATİS">
+        <PropertyRef Name="ÜRÜN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLURUNLER_TBLKATEGORİ">
+    <End Role="TBLKATEGORİ" Type="Self.TBLKATEGORİ" Multiplicity="0..1" />
+    <End Role="TBLURUNLER" Type="Self.TBLURUNLER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKATEGORİ">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLURUNLER">
+        <PropertyRef Name="KATEGORİ" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBMvcStokModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLADMIN" EntityType="Self.TBLADMIN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLKATEGORİ" EntityType="Self.TBLKATEGORİ" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLMUSTERİ" EntityType="Self.TBLMUSTERİ" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLPERSONEL" EntityType="Self.TBLPERSONEL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLSATİS" EntityType="Self.TBLSATİS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLURUNLER" EntityType="Self.TBLURUNLER" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TBLSATİS_TBLMUSTERİ" Association="Self.FK_TBLSATİS_TBLMUSTERİ">
+      <End Role="TBLMUSTERİ" EntitySet="TBLMUSTERİ" />
+      <End Role="TBLSATİS" EntitySet="TBLSATİS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSATİS_TBLPERSONEL" Association="Self.FK_TBLSATİS_TBLPERSONEL">
+      <End Role="TBLPERSONEL" EntitySet="TBLPERSONEL" />
+      <End Role="TBLSATİS" EntitySet="TBLSATİS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSATİS_TBLURUNLER" Association="Self.FK_TBLSATİS_TBLURUNLER">
+      <End Role="TBLURUNLER" EntitySet="TBLURUNLER" />
+      <End Role="TBLSATİS" EntitySet="TBLSATİS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLURUNLER_TBLKATEGORİ" Association="Self.FK_TBLURUNLER_TBLKATEGORİ">
+      <End Role="TBLKATEGORİ" EntitySet="TBLKATEGORİ" />
+      <End Role="TBLURUNLER" EntitySet="TBLURUNLER" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

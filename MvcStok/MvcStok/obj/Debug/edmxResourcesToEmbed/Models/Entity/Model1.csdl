@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBMvcStokModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TBLKATEGORİ">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TBLURUNLER" Relationship="Self.FK_TBLURUNLER_TBLKATEGORİ" FromRole="TBLKATEGORİ" ToRole="TBLURUNLER" />
+  </EntityType>
+  <EntityType Name="TBLMUSTERİ">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="SOYAD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="SEHİR" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="BAKIYE" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="TBLSATİS" Relationship="Self.FK_TBLSATİS_TBLMUSTERİ" FromRole="TBLMUSTERİ" ToRole="TBLSATİS" />
+    <Property Name="DURUM" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="TBLPERSONEL">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="SOYAD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="DEPARTMAN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TBLSATİS" Relationship="Self.FK_TBLSATİS_TBLPERSONEL" FromRole="TBLPERSONEL" ToRole="TBLSATİS" />
+  </EntityType>
+  <EntityType Name="TBLSATİS">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ÜRÜN" Type="Int32" />
+    <Property Name="PERSONEL" Type="Int32" />
+    <Property Name="MUSTERİ" Type="Int32" />
+    <Property Name="FİYAT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TARİH" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="TBLMUSTERİ" Relationship="Self.FK_TBLSATİS_TBLMUSTERİ" FromRole="TBLSATİS" ToRole="TBLMUSTERİ" />
+    <NavigationProperty Name="TBLPERSONEL" Relationship="Self.FK_TBLSATİS_TBLPERSONEL" FromRole="TBLSATİS" ToRole="TBLPERSONEL" />
+    <NavigationProperty Name="TBLURUNLER" Relationship="Self.FK_TBLSATİS_TBLURUNLER" FromRole="TBLSATİS" ToRole="TBLURUNLER" />
+  </EntityType>
+  <EntityType Name="TBLURUNLER">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MARKA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="STOK" Type="Int16" />
+    <Property Name="ALISFIYAT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SATISFIYAT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="KATEGORİ" Type="Int32" />
+    <NavigationProperty Name="TBLKATEGORİ" Relationship="Self.FK_TBLURUNLER_TBLKATEGORİ" FromRole="TBLURUNLER" ToRole="TBLKATEGORİ" />
+    <NavigationProperty Name="TBLSATİS" Relationship="Self.FK_TBLSATİS_TBLURUNLER" FromRole="TBLURUNLER" ToRole="TBLSATİS" />
+    <Property Name="DURUM" Type="Boolean" />
+  </EntityType>
+  <Association Name="FK_TBLURUNLER_TBLKATEGORİ">
+    <End Role="TBLKATEGORİ" Type="Self.TBLKATEGORİ" Multiplicity="0..1" />
+    <End Role="TBLURUNLER" Type="Self.TBLURUNLER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKATEGORİ">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLURUNLER">
+        <PropertyRef Name="KATEGORİ" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSATİS_TBLMUSTERİ">
+    <End Role="TBLMUSTERİ" Type="Self.TBLMUSTERİ" Multiplicity="0..1" />
+    <End Role="TBLSATİS" Type="Self.TBLSATİS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLMUSTERİ">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLSATİS">
+        <PropertyRef Name="MUSTERİ" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSATİS_TBLPERSONEL">
+    <End Role="TBLPERSONEL" Type="Self.TBLPERSONEL" Multiplicity="0..1" />
+    <End Role="TBLSATİS" Type="Self.TBLSATİS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLPERSONEL">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLSATİS">
+        <PropertyRef Name="PERSONEL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSATİS_TBLURUNLER">
+    <End Role="TBLURUNLER" Type="Self.TBLURUNLER" Multiplicity="0..1" />
+    <End Role="TBLSATİS" Type="Self.TBLSATİS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLURUNLER">
+        <PropertyRef Name="İD" />
+      </Principal>
+      <Dependent Role="TBLSATİS">
+        <PropertyRef Name="ÜRÜN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBMvcStokEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TBLKATEGORİ" EntityType="Self.TBLKATEGORİ" />
+    <EntitySet Name="TBLMUSTERİ" EntityType="Self.TBLMUSTERİ" />
+    <EntitySet Name="TBLPERSONEL" EntityType="Self.TBLPERSONEL" />
+    <EntitySet Name="TBLSATİS" EntityType="Self.TBLSATİS" />
+    <EntitySet Name="TBLURUNLER" EntityType="Self.TBLURUNLER" />
+    <AssociationSet Name="FK_TBLURUNLER_TBLKATEGORİ" Association="Self.FK_TBLURUNLER_TBLKATEGORİ">
+      <End Role="TBLKATEGORİ" EntitySet="TBLKATEGORİ" />
+      <End Role="TBLURUNLER" EntitySet="TBLURUNLER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSATİS_TBLMUSTERİ" Association="Self.FK_TBLSATİS_TBLMUSTERİ">
+      <End Role="TBLMUSTERİ" EntitySet="TBLMUSTERİ" />
+      <End Role="TBLSATİS" EntitySet="TBLSATİS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSATİS_TBLPERSONEL" Association="Self.FK_TBLSATİS_TBLPERSONEL">
+      <End Role="TBLPERSONEL" EntitySet="TBLPERSONEL" />
+      <End Role="TBLSATİS" EntitySet="TBLSATİS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSATİS_TBLURUNLER" Association="Self.FK_TBLSATİS_TBLURUNLER">
+      <End Role="TBLURUNLER" EntitySet="TBLURUNLER" />
+      <End Role="TBLSATİS" EntitySet="TBLSATİS" />
+    </AssociationSet>
+    <EntitySet Name="TBLADMIN" EntityType="DBMvcStokModel.TBLADMIN" />
+  </EntityContainer>
+  <EntityType Name="TBLADMIN">
+    <Key>
+      <PropertyRef Name="İD" />
+    </Key>
+    <Property Name="İD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KULLANICI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="SİFRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>
